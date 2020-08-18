@@ -433,7 +433,14 @@ Format.prototype.refresh = function()
 		var containsLabel = this.getSelectionState().containsLabel;
 		var currentLabel = null;
 		var currentPanel = null;
-
+		var cell =  graph.getSelectionCell();
+		var value = graph.getModel().getValue(cell);
+		var cellValue = value.tagName;
+		if(cellValue == 'module' || cellValue == 'sequence' || cellValue == 'enumType' || cellValue == 'entity') {
+			graph.cellsMovable = true;
+		} else {
+			graph.cellsMovable = false;
+		}
 		var addClickHandler = mxUtils.bind(this, function(elt, panel, index)
 		{
 			var clickHandler = mxUtils.bind(this, function(evt)
