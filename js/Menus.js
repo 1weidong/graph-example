@@ -1129,7 +1129,7 @@ Menus.prototype.addPopupMenuEditItems = function(menu, cell, evt)
 	else
 	{
 		// this.addMenuItems(menu, ['delete', '-', 'cut', 'copy', '-', 'duplicate'], null, evt);
-		this.addMenuItems(menu, ['delete', '-', 'cut', 'copy'], null, evt);
+		this.addMenuItems(menu, ['delete', '-', 'cut', 'copy', '-', 'undo', 'redo'], null, evt);
 	}
 };
 

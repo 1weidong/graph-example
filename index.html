@@ -62,7 +62,6 @@
 				console.log(this)
 				editorUiInit.apply(this, arguments);
 				this.actions.get('export').setEnabled(false);
-
 				// Updates action states which require a backend
 				if (!Editor.useLocalStorage)
 				{

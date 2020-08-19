@@ -3272,7 +3272,7 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	if (this.toolbar != null)
 	{
 		this.toolbarContainer.style.top = this.menubarHeight + 'px';
-		this.toolbarContainer.style.height = this.toolbarHeight + 'px';
+		this.toolbarContainer.style.height = 0;//this.toolbarHeight + 'px';
 		tmp += this.toolbarHeight;
 	}
 	
@@ -3293,17 +3293,17 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	}
 	
 	var fw = (this.format != null) ? this.formatWidth : 0;
-	this.sidebarContainer.style.top = tmp + 'px';
-	this.sidebarContainer.style.width = effHsplitPosition + 'px';
-	this.formatContainer.style.top = tmp + 'px';
+	this.sidebarContainer.style.top = this.menubarHeight + 'px';//tmp + 'px';
+	this.sidebarContainer.style.width = effHsplitPosition + this.splitSize + 'px';
+	this.formatContainer.style.top = this.menubarHeight + 'px';//tmp + 'px';
 	this.formatContainer.style.width = fw + 'px';
 	this.formatContainer.style.display = (this.format != null) ? '' : 'none';
 	
 	var diagContOffset = this.getDiagramContainerOffset();
 	var contLeft = (this.hsplit.parentNode != null) ? (effHsplitPosition + this.splitSize) : 0;
 	this.diagramContainer.style.left =  (contLeft + diagContOffset.x) + 'px';
-	this.diagramContainer.style.top = (tmp + diagContOffset.y) + 'px';
-	this.footerContainer.style.height = this.footerHeight + 'px';
+	this.diagramContainer.style.top =  this.menubarHeight + 'px';//(tmp + diagContOffset.y) + 'px';
+	this.footerContainer.style.height = 0;//this.footerHeight + 'px';
 	this.hsplit.style.top = this.sidebarContainer.style.top;
 	this.hsplit.style.bottom = (this.footerHeight + off) + 'px';
 	this.hsplit.style.left = effHsplitPosition + 'px';
@@ -3399,7 +3399,7 @@ EditorUi.prototype.createDivs = function()
 	this.footerContainer.style.right = '0px';
 	this.footerContainer.style.bottom = '0px';
 	this.footerContainer.style.zIndex = mxPopupMenu.prototype.zIndex - 2;
-	this.hsplit.style.width = this.splitSize + 'px';
+	this.hsplit.style.width = 0;//this.splitSize + 'px';
 	this.sidebarFooterContainer = this.createSidebarFooterContainer();
 	
 	if (this.sidebarFooterContainer)
@@ -3506,7 +3506,6 @@ EditorUi.prototype.createUi = function()
 	if (this.sidebar != null)
 	{
 		this.container.appendChild(this.hsplit);
-		
 		this.addSplitHandler(this.hsplit, true, 0, mxUtils.bind(this, function(value)
 		{
 			this.hsplitPosition = value;

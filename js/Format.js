@@ -365,19 +365,19 @@ Format.prototype.refresh = function()
 	div.style.color = 'rgb(112, 112, 112)';
 	div.style.textAlign = 'left';
 	div.style.cursor = 'default';
-	
+	div.className = 'geFormatHead';
+
 	var label = document.createElement('div');
 	label.className = 'geFormatSection';
 	label.style.textAlign = 'center';
 	label.style.fontWeight = 'bold';
-	label.style.paddingTop = '8px';
 	label.style.fontSize = '13px';
-	label.style.borderWidth = '0px 0px 1px 1px';
-	label.style.borderStyle = 'solid';
 	label.style.display = (mxClient.IS_QUIRKS) ? 'inline' : 'inline-block';
-	label.style.height = (mxClient.IS_QUIRKS) ? '34px' : '25px';
+	label.style.height = (mxClient.IS_QUIRKS) ? '34px' : '38px';
+	label.style.lineHeight = (mxClient.IS_QUIRKS) ? '34px' : '38px';
 	label.style.overflow = 'hidden';
 	label.style.width = '100%';
+	label.style.float = 'left';
 	this.container.appendChild(div);
 
 	// Prevents text selection
@@ -458,14 +458,17 @@ Format.prototype.refresh = function()
 
 					if (currentLabel != null)
 					{
-						currentLabel.style.backgroundColor = this.inactiveTabBackgroundColor;
-						currentLabel.style.borderBottomWidth = '1px';
+						currentLabel.style.color = 'rgb(102 102 102)';
+						// currentLabel.style.border = 'none';
+						// currentLabel.style.marginBottom = '0';
 					}
 
 					currentLabel = elt;
-					currentLabel.style.backgroundColor = '';
-					currentLabel.style.borderBottomWidth = '0px';
-
+					currentLabel.style.color = '#449ED9';
+					// currentLabel.style.border = '1px solid #e0e6f0';
+					// currentLabel.style.borderBottomWidth = '0';
+					// currentLabel.style.marginBottom = '-1px';
+					// currentLabel.style.backgroundColor = '';
 					if (currentPanel != panel)
 					{
 						if (currentPanel != null)
@@ -496,8 +499,8 @@ Format.prototype.refresh = function()
 		});
 
 		var idx = 0;
-		label.style.backgroundColor = this.inactiveTabBackgroundColor;
-		label.style.borderLeftWidth = '1px';
+		// label.style.backgroundColor = this.inactiveTabBackgroundColor;
+		label.style.borderLeft = '1px solid #e0e6f0';
 		label.style.cursor = 'pointer';
 		label.style.width = (containsLabel) ? '50%' : '33.3%';
 		label.style.width = (containsLabel) ? '50%' : '33.3%';
@@ -505,7 +508,7 @@ Format.prototype.refresh = function()
 		// var label3 = label2.cloneNode(false);
 
 		// Workaround for ignored background in IE
-		label2.style.backgroundColor = this.inactiveTabBackgroundColor;
+		// label2.style.backgroundColor = this.inactiveTabBackgroundColor;
 		// label3.style.backgroundColor = this.inactiveTabBackgroundColor;
 
 		if (containsLabel)
@@ -2038,7 +2041,7 @@ PropertyPanel.prototype.showProperty = function (container) {
 	}
 
 	var top = document.createElement('div');
-	top.style.cssText = 'position:absolute;left:30px;right:30px;overflow-y:auto;top:30px;bottom:80px;';
+	top.style.cssText = 'position:absolute;left:5px;right:0px;overflow-y:auto;top:45px;bottom:0px;';
 	container.appendChild(form.table);
 	top.appendChild(container);
 

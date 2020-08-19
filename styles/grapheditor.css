@@ -1,20 +1,38 @@
 /*添加元素列表/属性 开始*/
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+	border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, .2);
+	border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(162, 162, 163, .2);
+}
 ul, li {
 	outline-style: none;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
-.properties {
-	margin-top: 20px;
-}
 .add-element {
 	position: absolute;
-	left: 30px;
-	right: 30px;
+	left: 5px;
+	right: 0;
 	overflow-y: auto;
-	top: 50px;
-	bottom: 80px;
+	top: 45px;
+	bottom: 0;
 }
 .elment-item {
 	height: 28px;
@@ -23,6 +41,12 @@ ul, li {
 }
 .elment-item-select {
 	margin-right: 15px;
+}
+.geFormatHead:first-child {
+	height: 38px;
+	padding-left: 10px;
+	display: flex;
+	border-bottom: 1px solid #e0e6f0;
 }
 /*添加元素列表 结束*/
 .geEditor {
@@ -50,6 +74,10 @@ ul, li {
 	color: black;
 	padding:6px;
 }
+.geMenubarContainer {
+	box-sizing: border-box;
+	border-bottom: 1px solid #e0e6f0;
+}
 .geMenubarContainer .geItem, .geToolbar .geButton, .geToolbar .geLabel {
 	cursor:pointer !important;
 }
@@ -76,10 +104,6 @@ ul, li {
 }
 .geSidebarFooter {
 	border-top:1px solid #dadce0;
-}
-.geFormatSection {
-	border-bottom:1px solid #dadce0;
-	border-color:#dadce0;
 }
 .geDiagramContainer {
 	background-color:#ffffff;
@@ -259,7 +283,7 @@ ul, li {
 	color:#188038 !important;
 }
 .geMenubarContainer, .geToolbarContainer, .geHsplit, .geVsplit {
-	background-color:#fbfbfb;
+	background-color: #fff;
 }
 .geMenubar {
 	padding:0px 2px 0px 2px;
@@ -308,7 +332,7 @@ ul, li {
 	background:transparent;
 }
 .geToolbarContainer {
-	border-bottom:1px solid #dadce0;
+	/*border-bottom:1px solid #dadce0;*/
 }
 .geSidebarContainer .geToolbarContainer {
 	background:transparent;
@@ -366,7 +390,7 @@ div.mxWindow .geButton {
 	background-color: #f8f9fa;
 }
 .geSidebarContainer {
-	background:#fbfbfb;
+	background:#fff;
 	overflow:hidden;
 	position:absolute;
 	overflow:auto;
@@ -491,8 +515,8 @@ div.mxWindow .geButton {
 	background-position:center center;
 }
 .geHsplit {
-	border-left:1px solid #e5e5e5;
-	border-right:1px solid #e5e5e5;
+	/*border-left:1px solid #e5e5e5;*/
+	/*border-right:1px solid #e5e5e5;*/
 }
 .geVSplit {
 	border-top:1px solid #e5e5e5;
