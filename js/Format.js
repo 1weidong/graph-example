@@ -443,6 +443,7 @@ Format.prototype.refresh = function()
 		}
 		var addClickHandler = mxUtils.bind(this, function(elt, panel, index)
 		{
+			var classList = elt.getAttribute('class');
 			var clickHandler = mxUtils.bind(this, function(evt)
 			{
 				if (currentLabel != elt)
@@ -459,16 +460,21 @@ Format.prototype.refresh = function()
 					if (currentLabel != null)
 					{
 						currentLabel.style.color = 'rgb(102 102 102)';
-						// currentLabel.style.border = 'none';
-						// currentLabel.style.marginBottom = '0';
+						currentLabel.style.border = 'none';
+						currentLabel.style.marginBottom = '0';
+						currentLabel.removeClass//('class', 'active_tab')
+						classList = classList.replace('active_tab', '');
+						currentLabel.setAttribute('class', classList);
 					}
 
 					currentLabel = elt;
+					classList = classList.concat(' active_tab');
+					currentLabel.setAttribute('class', classList);
 					currentLabel.style.color = '#449ED9';
-					// currentLabel.style.border = '1px solid #e0e6f0';
-					// currentLabel.style.borderBottomWidth = '0';
-					// currentLabel.style.marginBottom = '-1px';
-					// currentLabel.style.backgroundColor = '';
+					currentLabel.style.border = '1px solid #e0e6f0';
+					currentLabel.style.borderBottomWidth = '0';
+					currentLabel.style.marginBottom = '-1px';
+					currentLabel.style.backgroundColor = '';
 					if (currentPanel != panel)
 					{
 						if (currentPanel != null)
@@ -500,7 +506,7 @@ Format.prototype.refresh = function()
 
 		var idx = 0;
 		// label.style.backgroundColor = this.inactiveTabBackgroundColor;
-		label.style.borderLeft = '1px solid #e0e6f0';
+		// label.style.borderLeft = '1px solid #e0e6f0';
 		label.style.cursor = 'pointer';
 		label.style.width = (containsLabel) ? '50%' : '33.3%';
 		label.style.width = (containsLabel) ? '50%' : '33.3%';
@@ -1638,7 +1644,7 @@ ElementPanel.prototype.showelement = function (container) {
 					{name: 'translatable', value: 'false'},
 					{name: 'encrypted', value: 'false'},
 				];
-				arr = arrData.concat(rangeColumn);
+				arr = arrData.concat(rangeColumn,simpleColumn,columnType);
 				break;
 			case 'decimal':
 				var arrData = [
@@ -1646,7 +1652,7 @@ ElementPanel.prototype.showelement = function (container) {
 					{name: 'precision', value: ''},
 					{name: 'scale', value: ''}
 				];
-				arr = arrData.concat(rangeColumn);
+				arr = arrData.concat(rangeColumn,simpleColumn,columnType);
 				break;
 			case 'enum':
 				var arrData = [
@@ -1697,7 +1703,7 @@ ElementPanel.prototype.showelement = function (container) {
 				break;
 			case 'integer':
 				var object = {name: 'label', value: 'integer'};
-				var arrData = simpleColumn.concat(rangeColumn);
+				var arrData = simpleColumn.concat(rangeColumn, columnType);
 				arrData.push(object)
 				arr = arrData;
 				break;
@@ -1714,12 +1720,11 @@ ElementPanel.prototype.showelement = function (container) {
 				arr = arrData;
 				break;
 			case 'datetime':
-				var arrData = simpleColumn.concat(columnType);
 				var arrData = [
 					{name: 'label', value: 'datetime'},
 					{name: 'tz', value: 'fasle'}
 				];
-				arr = arrData.concat(arrData);
+				arr = arrData.concat(simpleColumn, columnType);
 				break;
 			case 'binary':
 				var arrData = [
@@ -1735,10 +1740,10 @@ ElementPanel.prototype.showelement = function (container) {
 				arr = arrData.concat(columnType);
 				break;
 			case 'one-to-one':
-				var object = {name: 'label', value: 'one-to-one'};
-				var arrData = relationalColumn.concat(columnType);
-				arrData.push(object)
-				arr = arrData.concat(relationalColumn);
+				var arrData = [
+					{name: 'label', value: 'one-to-one'}
+				];
+				arr = arrData.concat(relationalColumn, columnType);
 				break;
 			case 'many-to-one':
 				var object = {name: 'label', value: 'many-to-one'};
@@ -1964,13 +1969,12 @@ PropertyPanel.prototype.showProperty = function (container) {
 				typeSelect(value, index, booleanArr)
 				break;
 			default:
-				typeText('string', value, index)
+				typeText('text', value, index)
 		}
 	}
 
 	function typeText(type, typeValue, index) {
-		texts[index] = form.addText(names[count] + ':', typeValue, type);
-		texts[index].style.width = '93%';
+		texts[index] = form.addText(names[count], typeValue, type);
 		mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
 		{
 			value = value.cloneNode(true);
@@ -1979,7 +1983,7 @@ PropertyPanel.prototype.showProperty = function (container) {
 		}));
 	}
 	function typeSelect(typeValue, index, arr) {
-		var select = form.addCombo(names[count] + ':');
+		var select = form.addCombo(names[count]);
 		for(var i=0; i<arr.length; i++) {
 			if(arr[i]==typeValue) {
 				form.addOption(select, arr[i], arr[i], true);
@@ -1988,7 +1992,6 @@ PropertyPanel.prototype.showProperty = function (container) {
 			}
 		}
 		texts[index] = select;
-		texts[index].style.width = '100%';
 		mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
 		{
 			value = value.cloneNode(true);
@@ -2026,13 +2029,8 @@ PropertyPanel.prototype.showProperty = function (container) {
 	});
 	if (id != null)
 	{
-		var text = document.createElement('div');
-		text.style.width = '100%';
-		text.style.fontSize = '11px';
-		text.style.textAlign = 'center';
-		mxUtils.write(text, id);
-
-		form.addField(mxResources.get('id') + ':', text);
+		var idEle = form.addText(mxResources.get('id') , id);
+		idEle.setAttribute('disabled', 'disabled')
 	}
 	for (var i = 0; i < temp.length; i++)
 	{
