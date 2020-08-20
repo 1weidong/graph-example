@@ -1590,7 +1590,7 @@ ElementPanel.prototype.showelement = function (container) {
 		var columnType = [
 			{name: 'name', value: ''},
 			{name: 'columns', value: ''},
-			{name: 'title', value: ''},
+			// {name: 'title', value: ''},
 			{name: 'help', value: ''},
 			{name: 'required', value: 'false'},
 			{name: 'readonly', value: 'false'},
@@ -1626,7 +1626,7 @@ ElementPanel.prototype.showelement = function (container) {
 				arr = [
 					{name: 'label', value: 'item'},
 					{name: 'name', value: 'item'},
-					{name: 'title', value: ''},
+					// {name: 'title', value: ''},
 					{name: 'value', value: ''},
 					{name: 'help', value: ''},
 				];
@@ -1815,7 +1815,6 @@ PropertyPanel.prototype.showProperty = function (container) {
 	var graph = ui.editor.graph;
 	var cell =  graph.getSelectionCell();
 	var value = graph.getModel().getValue(cell);
-	var ss = this.format.getSelectionState();
 
 	// Converts the value to an XML node
 	if (!mxUtils.isNode(value))
@@ -1833,6 +1832,7 @@ PropertyPanel.prototype.showProperty = function (container) {
 	var names = [];
 	var texts = [];
 	var count = 0;
+	var labelValue = '';
 
 	var id = (EditDataDialog.getDisplayIdForCell != null) ?
 		EditDataDialog.getDisplayIdForCell(ui, cell) : null;
@@ -1974,6 +1974,9 @@ PropertyPanel.prototype.showProperty = function (container) {
 	}
 
 	function typeText(type, typeValue, index) {
+		if (names[count] == 'name') {
+			typeValue = labelValue;
+		}
 		texts[index] = form.addText(names[count], typeValue, type);
 		mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
 		{
@@ -2008,6 +2011,9 @@ PropertyPanel.prototype.showProperty = function (container) {
 		if ((isLayer || attrs[i].nodeName != 'label') && attrs[i].nodeName != 'placeholders')
 		{
 			temp.push({name: attrs[i].nodeName, value: attrs[i].nodeValue});
+		}
+		if (attrs[i].nodeName == 'label') {
+			labelValue = attrs[i].nodeValue
 		}
 	}
 
