@@ -510,7 +510,7 @@ Format.prototype.refresh = function()
 		label.style.cursor = 'pointer';
 		label.style.width = (containsLabel) ? '50%' : '33.3%';
 		label.style.width = (containsLabel) ? '50%' : '33.3%';
-		var label2 = label.cloneNode(false);
+		// var label2 = label.cloneNode(false);
 		// var label3 = label2.cloneNode(false);
 
 		// Workaround for ignored background in IE
@@ -519,7 +519,7 @@ Format.prototype.refresh = function()
 
 		if (containsLabel)
 		{
-			label2.style.borderLeftWidth = '0px';
+			// label2.style.borderLeftWidth = '0px';
 		}
 		else
 		{
@@ -535,14 +535,14 @@ Format.prototype.refresh = function()
 		}
 
 		// element
-		mxUtils.write(label2, mxResources.get('elementPanle'));
-		div.appendChild(label2);
-		var elementPanel = div.cloneNode(false);
-		elementPanel.style.display = 'none';
-		// console.log(new ElementPanel(this, ui, elementPanel))
-		this.panels.push(new ElementPanel(this, ui, elementPanel));
-		this.container.appendChild(elementPanel);
-		addClickHandler(label2, elementPanel, idx++);
+		// mxUtils.write(label2, mxResources.get('elementPanle'));
+		// div.appendChild(label2);
+		// var elementPanel = div.cloneNode(false);
+		// elementPanel.style.display = 'none';
+		// // console.log(new ElementPanel(this, ui, elementPanel))
+		// this.panels.push(new ElementPanel(this, ui, elementPanel));
+		// this.container.appendChild(elementPanel);
+		// addClickHandler(label2, elementPanel, idx++);
 
 
 		// Style

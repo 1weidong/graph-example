@@ -424,6 +424,254 @@ Menus.prototype.init = function()
     		}, true);
 		}), parent);
 	})));
+	this.put('addSubElement', new Menu(mxUtils.bind(this, function(menu, parent)
+	{
+		var ui = this.editorUi;
+		var graph = ui.editor.graph;
+		var cell =  graph.getSelectionCell();
+		var value = graph.getModel().getValue(cell);
+		var cellValue = value.tagName;
+		var enumList = ['item'];
+		var entityList = ['string', 'boolean', 'integer', 'long', 'decimal', 'date', 'time', 'datetime', 'binary', 'enum', 'one-to-one', 'many-to-one', 'one-to-many', 'many-to-many', 'unique-constraint', 'index', 'finder-method', 'extra-imports', 'extra-code', 'track', 'entity-listener'];
+		var list = [];
+
+		switch (cellValue) {
+			case 'enumType':
+				list = enumList;
+				break;
+			case 'entity':
+				list = entityList;
+				break;
+		}
+		for(var i=0; i<list.length; i++) {
+			((i,txt) => {
+				menu.addItem(txt, null, mxUtils.bind(this, function()
+				{
+					try
+					{
+						var model = graph.getModel();
+						model.beginUpdate();
+						try
+						{
+							var parent = graph.getSelectionCell();
+							var field = new mxCell(transformXml(fieldParams(txt), txt), new mxGeometry(0, 0, 100, 26), 'text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;');
+							field.vertex = true;
+							model.add(parent, field);
+						}
+						finally
+						{
+							model.endUpdate();
+						}
+						ui.hideDialog.apply(ui, arguments);
+					}
+					catch (e)
+					{
+						mxUtils.alert(e);
+					}
+				}), parent);
+			})(i,list[i])
+		}
+		function fieldParams(value) {
+			var arr = [];
+			var indexType = [
+				{name: 'name', value: ''},
+				{name: 'columns', value: ''}
+			]
+			var columnType = [
+				{name: 'name', value: ''},
+				{name: 'columns', value: ''},
+				// {name: 'title', value: ''},
+				{name: 'help', value: ''},
+				{name: 'required', value: 'false'},
+				{name: 'readonly', value: 'false'},
+				{name: 'hidden', value: 'false'},
+				{name: 'transient', value: 'false'},
+				{name: 'default', value: ''},
+				{name: 'unique', value: 'false'},
+				{name: 'initParam', value: 'false'},
+				{name: 'index', value: ''},
+				{name: 'massUpdate', value: 'false'},
+				{name: 'copy', value: 'true'}
+			]
+			var simpleColumn = [
+				{name: 'nullable', value: 'false'},
+				{name: 'selection', value: ''},
+				{name: 'hashKey', value: 'false'},
+				{name: 'formula', value: 'false'}
+			]
+			var rangeColumn = [
+				{name: 'min', value: ''},
+				{name: 'max', value: ''}
+			]
+			var relationalColumn = [
+				{name: 'ref', value: ''},
+				{name: 'mappedBy', value: ''},
+				{name: 'orphanRemoval', value: 'false'},
+				{name: 'orderBy', value: ''},
+				{name: 'table', value: ''},
+				{name: 'column2', value: ''}
+			]
+			switch (value) {
+				case 'item':
+					arr = [
+						{name: 'label', value: 'item'},
+						{name: 'name', value: 'item'},
+						// {name: 'title', value: ''},
+						{name: 'value', value: ''},
+						{name: 'help', value: ''},
+					];
+					break;
+				case 'string':
+					var arrData = [
+						{name: 'label', value: 'string'},
+						{name: 'multiline', value: 'false'},
+						{name: 'large', value: 'false'},
+						{name: 'namecolumn', value: 'false'},
+						{name: 'search', value: ''},
+						{name: 'json', value: 'false'},
+						{name: 'password', value: 'false'},
+						{name: 'sequence', value: ''},
+						{name: 'translatable', value: 'false'},
+						{name: 'encrypted', value: 'false'},
+					];
+					arr = arrData.concat(rangeColumn,simpleColumn,columnType);
+					break;
+				case 'decimal':
+					var arrData = [
+						{name: 'label', value: 'decimal'},
+						{name: 'precision', value: ''},
+						{name: 'scale', value: ''}
+					];
+					arr = arrData.concat(rangeColumn,simpleColumn,columnType);
+					break;
+				case 'enum':
+					var arrData = [
+						{name: 'label', value: 'enum'},
+						{name: 'ref', value: ''}
+					];
+					arr = arrData.concat(columnType);
+					break;
+				case 'unique-constraint':
+					var object = {name: 'label', value: 'unique-constraint'};
+					arr = indexType.push(object);
+					break;
+				case 'index':
+					var object = {name: 'label', value: 'index'};
+					arr = indexType.push(object);
+					break;
+				case 'finder-method':
+					arr = [
+						{name: 'label', value: 'finder-method'},
+						{name: 'name', value: 'finder-method'},
+						{name: 'using', value: ''},
+						{name: 'filter', value: ''},
+						{name: 'orderBy', value: ''},
+						{name: 'all', value: 'false'},
+						{name: 'cacheable', value: 'false'},
+						{name: 'flush', value: 'true'}
+					];
+					break;
+				case 'track':
+					arr = [
+						{name: 'label', value: 'track'},
+						{name: 'subscribe', value: 'false'},
+						{name: 'replace', value: 'false'},
+						{name: 'files', value: 'false'},
+						{name: 'on', value: 'ALWAYS'}
+					];
+					break;
+				case 'entity-listener':
+					arr = [
+						{name: 'label', value: 'entity-listener'}
+					];
+					break;
+				case 'boolean':
+					var object = {name: 'label', value: 'boolean'};
+					var arrData = simpleColumn.concat(columnType);
+					arrData.push(object)
+					arr = arrData;
+					break;
+				case 'integer':
+					var object = {name: 'label', value: 'integer'};
+					var arrData = simpleColumn.concat(rangeColumn, columnType);
+					arrData.push(object)
+					arr = arrData;
+					break;
+				case 'date':
+					var object = {name: 'label', value: 'date'};
+					var arrData = simpleColumn.concat(columnType);
+					arrData.push(object)
+					arr = arrData;
+					break;
+				case 'time':
+					var object = {name: 'label', value: 'time'};
+					var arrData = simpleColumn.concat(columnType);
+					arrData.push(object)
+					arr = arrData;
+					break;
+				case 'datetime':
+					var arrData = [
+						{name: 'label', value: 'datetime'},
+						{name: 'tz', value: 'fasle'}
+					];
+					arr = arrData.concat(simpleColumn, columnType);
+					break;
+				case 'binary':
+					var arrData = [
+						{name: 'label', value: 'binary'},
+						{name: 'image', value: 'false'},
+						{name: 'encrypted', value: 'false'},
+						{name: 'default', value: ''},
+						{name: 'readonly', value: ''},
+						{name: 'unique', value: ''},
+						{name: 'hidden', value: ''},
+						{name: 'massUpdate', value: ''}
+					];
+					arr = arrData.concat(columnType);
+					break;
+				case 'one-to-one':
+					var arrData = [
+						{name: 'label', value: 'one-to-one'}
+					];
+					arr = arrData.concat(relationalColumn, columnType);
+					break;
+				case 'many-to-one':
+					var object = {name: 'label', value: 'many-to-one'};
+					var arrData = relationalColumn.concat(columnType);
+					arrData.push(object)
+					arr = arrData.concat(relationalColumn);
+					break;
+				case 'one-to-many':
+					var object = {name: 'label', value: 'one-to-many'};
+					var arrData = relationalColumn.concat(columnType);
+					arrData.push(object)
+					arr = arrData.concat(relationalColumn);
+					break;
+				case 'many-to-many':
+					var object = {name: 'label', value: 'many-to-many'};
+					var arrData = relationalColumn.concat(columnType);
+					arrData.push(object)
+					arr = arrData.concat(relationalColumn);
+					break;
+			}
+			return arr;
+		}
+
+		function transformXml(options, name) {
+			var optionsArr = [];
+			var doc = mxUtils.createXmlDocument();
+			var obj = doc.createElement(name);
+			if (options.length > 0) {
+				optionsArr = options;
+				for(var i=0; i<optionsArr.length; i++) {
+					obj.setAttribute(optionsArr[i].name, optionsArr[i].value);
+				}
+			} else {
+				obj.setAttribute('label', name);
+			}
+			return obj;
+		}
+	})));
 	this.put('navigation', new Menu(mxUtils.bind(this, function(menu, parent)
 	{
 		this.addMenuItems(menu, ['home', '-', 'exitGroup', 'enterGroup', '-', 'expand', 'collapse', '-', 'collapsible'], parent);
@@ -1035,8 +1283,8 @@ Menus.prototype.toggleStyle = function(key, defaultValue)
  */
 Menus.prototype.addMenuItem = function(menu, key, parent, trigger, sprite, label)
 {
-	var action = this.editorUi.actions.get(key);
 
+	var action = this.editorUi.actions.get(key);
 	if (action != null && (menu.showDisabled || action.isEnabled()) && action.visible)
 	{
 		var item = menu.addItem(label || action.label, null, function()
@@ -1049,9 +1297,7 @@ Menus.prototype.addMenuItem = function(menu, key, parent, trigger, sprite, label
 		{
 			menu.addCheckmark(item, Editor.checkmarkImage);
 		}
-
 		this.addShortcut(item, action);
-
 		return item;
 	}
 	
@@ -1122,13 +1368,20 @@ Menus.prototype.addPopupMenuHistoryItems = function(menu, cell, evt)
  */
 Menus.prototype.addPopupMenuEditItems = function(menu, cell, evt)
 {
+	var ui = this.editorUi;
+	var graph = ui.editor.graph;
+	var cell =  graph.getSelectionCell();
+	var value = graph.getModel().getValue(cell);
+	var cellValue = value.tagName;
 	if (this.editorUi.editor.graph.isSelectionEmpty())
 	{
 		this.addMenuItems(menu, ['pasteHere'], null, evt);
 	}
 	else
 	{
-		// this.addMenuItems(menu, ['delete', '-', 'cut', 'copy', '-', 'duplicate'], null, evt);
+		if (cellValue == 'enumType' || cellValue == 'entity') {
+			this.addSubmenu('addSubElement', menu, null);
+		}
 		this.addMenuItems(menu, ['delete', '-', 'cut', 'copy', '-', 'undo', 'redo'], null, evt);
 	}
 };
