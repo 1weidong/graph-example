@@ -2338,6 +2338,15 @@ Sidebar.prototype.createDropHandler = function(cells, allowSplit, allowCellsInse
 					{
 						x = Math.round(x);
 						y = Math.round(y);
+
+						var arrCell = graph.getModel().cells;
+						for (key in arrCell) {
+							if(arrCell[key].value) {
+								if(arrCell[key].value.tagName == 'module' && cells[0].value.tagName == 'module') {
+									return false
+								}
+							}
+						}
 						if (target) return false;
 						// Splits the target edge or inserts into target group
 						if (allowSplit && graph.isSplitTarget(target, cells, evt))
