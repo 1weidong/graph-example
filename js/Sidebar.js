@@ -1415,10 +1415,6 @@ Sidebar.prototype.addUmlPalette = function(expand)
 					value: 'false'
 				},
 				{
-					name: 'cachable',
-					value: 'false'
-				},
-				{
 					name: 'cacheable',
 					value: 'false'
 				},

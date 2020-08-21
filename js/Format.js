@@ -1869,9 +1869,6 @@ PropertyPanel.prototype.showProperty = function (container) {
 			case 'hashAll':
 				typeSelect(value, index, booleanArr)
 				break;
-			case 'cachable':
-				typeSelect(value, index, booleanArr)
-				break;
 			case 'cacheable':
 				typeSelect(value, index, booleanArr)
 				break;
@@ -1977,16 +1974,17 @@ PropertyPanel.prototype.showProperty = function (container) {
 		if (names[count] == 'name') {
 			typeValue = labelValue;
 		}
-		texts[index] = form.addText(names[count], typeValue, type);
+		texts[index] = form.addText(mxResources.get(names[count]), typeValue, type);
 		mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
 		{
 			value = value.cloneNode(true);
 			value.setAttribute(names[index], texts[index].value);
 			graph.getModel().setValue(cell, value);
+			evt.stopPropagation();
 		}));
 	}
 	function typeSelect(typeValue, index, arr) {
-		var select = form.addCombo(names[count]);
+		var select = form.addCombo(mxResources.get(names[count]));
 		for(var i=0; i<arr.length; i++) {
 			if(arr[i]==typeValue) {
 				form.addOption(select, arr[i], arr[i], true);
@@ -2000,6 +1998,7 @@ PropertyPanel.prototype.showProperty = function (container) {
 			value = value.cloneNode(true);
 			value.setAttribute(names[index], texts[index].value);
 			graph.getModel().setValue(cell, value);
+			evt.stopPropagation();
 		}));
 	}
 
