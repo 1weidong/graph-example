@@ -1621,6 +1621,7 @@ ElementPanel.prototype.showelement = function (container) {
 			{name: 'table', value: ''},
 			{name: 'column2', value: ''}
 		]
+		console.log(value)
 		switch (value) {
 			case 'item':
 				arr = [
@@ -1666,8 +1667,10 @@ ElementPanel.prototype.showelement = function (container) {
 				arr = indexType.push(object);
 				break;
 			case 'index':
-				var object = {name: 'label', value: 'index'};
-				arr = indexType.push(object);
+				var arrData = [
+					{name: 'label', value: 'index'}
+				];
+				arr = arrData.concat(indexType);
 				break;
 			case 'finder-method':
 				arr = [

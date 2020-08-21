@@ -551,13 +551,23 @@ Menus.prototype.init = function()
 					];
 					arr = arrData.concat(columnType);
 					break;
+				case 'long':
+					var arrData = [
+						{name: 'label', value: 'long'}
+					];
+					arr = arrData.concat(rangeColumn,simpleColumn,columnType);
+					break;
 				case 'unique-constraint':
-					var object = {name: 'label', value: 'unique-constraint'};
-					arr = indexType.push(object);
+					var arrData = [
+						{name: 'label', value: 'unique-constraint'}
+					];
+					arr = arrData.concat(indexType);
 					break;
 				case 'index':
-					var object = {name: 'label', value: 'index'};
-					arr = indexType.push(object);
+					var arrData = [
+						{name: 'label', value: 'index'}
+					];
+					arr = arrData.concat(indexType);
 					break;
 				case 'finder-method':
 					arr = [
