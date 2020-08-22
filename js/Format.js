@@ -1794,7 +1794,6 @@ ElementPanel.prototype.showelement = function (container) {
 	return div;
 }
 
-
 /*
 * showProperty class for format panels.
 * */
@@ -1843,168 +1842,8 @@ PropertyPanel.prototype.showProperty = function (container) {
 	var addTextArea = (index, name, value) =>
 	{
 		names[index] = name;
-		typeFun(name, value, index)
+		this.typeFun(name, value, index, names, count, labelValue, texts, form)
 	};
-
-	function typeFun(typeName, value, index) {
-		let booleanArr = ['false', 'true'];
-		let langArr = ['java', 'groovy'];
-		let onArr = ['ALWAYS', 'CREATE', 'UPDATE'];
-		switch (typeName) {
-			case 'padding':
-				typeText('number', value, index)
-				break;
-			case 'initial':
-				typeText('number', value, index)
-				break;
-			case 'increment':
-				typeText('number', value, index)
-				break;
-			case 'sequential':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'jsonAttrs':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'logUpdates':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'hashAll':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'cacheable':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'persistable':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'lang':
-				typeSelect(value, index, langArr)
-				break;
-			case 'numeric':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'multiline':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'large':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'namecolumn':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'json':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'password':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'translatable':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'encrypted':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'precision':
-				typeText('number', value, index)
-				break;
-			case 'scale':
-				typeText('number', value, index)
-				break;
-			case 'all':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'flush':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'subscribe':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'replace':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'files':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'on':
-				typeSelect(value, index, onArr)
-				break;
-			case 'required':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'readonly':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'hidden':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'transient':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'unique':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'initParam':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'massUpdate':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'nullable':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'hashKey':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'formula':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'orphanRemoval':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'tz':
-				typeSelect(value, index, booleanArr)
-				break;
-			case 'image':
-				typeSelect(value, index, booleanArr)
-				break;
-			default:
-				typeText('text', value, index)
-		}
-	}
-
-	function typeText(type, typeValue, index) {
-		if (names[count] == 'name') {
-			typeValue = labelValue;
-		}
-		texts[index] = form.addText(mxResources.get(names[count]), typeValue, type);
-		mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
-		{
-			value = value.cloneNode(true);
-			value.setAttribute(names[index], texts[index].value);
-			graph.getModel().setValue(cell, value);
-			evt.stopPropagation();
-		}));
-	}
-	function typeSelect(typeValue, index, arr) {
-		var select = form.addCombo(mxResources.get(names[count]));
-		for(var i=0; i<arr.length; i++) {
-			if(arr[i]==typeValue) {
-				form.addOption(select, arr[i], arr[i], true);
-			} else {
-				form.addOption(select, arr[i], arr[i]);
-			}
-		}
-		texts[index] = select;
-		mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
-		{
-			value = value.cloneNode(true);
-			value.setAttribute(names[index], texts[index].value);
-			graph.getModel().setValue(cell, value);
-			evt.stopPropagation();
-		}));
-	}
-
 	var temp = [];
 	var isLayer = graph.getModel().getParent(cell) == graph.getModel().getRoot();
 
@@ -2073,6 +1912,173 @@ PropertyPanel.prototype.showProperty = function (container) {
 	};
 	return div;
 }
+
+PropertyPanel.prototype.typeFun = function (typeName, value, index, names, count, labelValue, texts, form) {
+	let booleanArr = ['false', 'true'];
+	let langArr = ['java', 'groovy'];
+	let onArr = ['ALWAYS', 'CREATE', 'UPDATE'];
+	switch (typeName) {
+		case 'padding':
+			this.typeText('number', value, index, names, count, labelValue, texts, form)
+			break;
+		case 'initial':
+			this.typeText('number', value, index, names, count, labelValue, texts, form)
+			break;
+		case 'increment':
+			this.typeText('number', value, index, names, count, labelValue, texts, form)
+			break;
+		case 'sequential':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'jsonAttrs':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'logUpdates':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'hashAll':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'cacheable':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'persistable':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'lang':
+			this.typeSelect(value, index, langArr, names, count, labelValue, texts, form)
+			break;
+		case 'numeric':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'multiline':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'large':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'namecolumn':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'json':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'password':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'translatable':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'encrypted':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'precision':
+			this.typeText('number', value, index, names, count, labelValue, texts, form)
+			break;
+		case 'scale':
+			this.typeText('number', value, index, names, count, labelValue, texts, form)
+			break;
+		case 'all':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'flush':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'subscribe':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'replace':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'files':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'on':
+			this.typeSelect(value, index, onArr, names, count, labelValue, texts, form)
+			break;
+		case 'required':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'readonly':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'hidden':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'transient':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'unique':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'initParam':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'massUpdate':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'nullable':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'hashKey':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'formula':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'orphanRemoval':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'tz':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		case 'image':
+			this.typeSelect(value, index, booleanArr, names, count, labelValue, texts, form)
+			break;
+		default:
+			this.typeText('text', value, index, names, count, labelValue, texts, form)
+	}
+}
+
+PropertyPanel.prototype.typeText = function (type, typeValue, index, names, count, labelValue, texts, form) {
+	var ui = this.editorUi;
+	var graph = ui.editor.graph;
+	var cell =  graph.getSelectionCell();
+	var value = graph.getModel().getValue(cell);
+	if (names[count] == 'name') {
+		typeValue = labelValue;
+	}
+	texts[index] = form.addText(mxResources.get(names[count]), typeValue, type);
+	mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
+	{
+		value = value.cloneNode(true);
+		value.setAttribute(names[index], texts[index].value);
+		graph.getModel().setValue(cell, value);
+	}));
+}
+
+PropertyPanel.prototype.typeSelect = function (typeValue, index, arr, names, count, labelValue, texts, form) {
+	var ui = this.editorUi;
+	var graph = ui.editor.graph;
+	var cell =  graph.getSelectionCell();
+	var value = graph.getModel().getValue(cell);
+	var select = form.addCombo(mxResources.get(names[count]));
+	for(var i=0; i<arr.length; i++) {
+		if(arr[i]==typeValue) {
+			form.addOption(select, arr[i], arr[i], true);
+		} else {
+			form.addOption(select, arr[i], arr[i]);
+		}
+	}
+	texts[index] = select;
+	mxEvent.addListener(texts[index], 'blur', mxUtils.bind(this, function(evt)
+	{
+		value = value.cloneNode(true);
+		value.setAttribute(names[index], texts[index].value);
+		graph.getModel().setValue(cell, value);
+	}));
+}
+
 
 /**
  * Adds the label menu items to the given menu and parent.
